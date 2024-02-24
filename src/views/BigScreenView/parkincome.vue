@@ -102,9 +102,27 @@ const initBarChart = () => {
   });
 }
 
-onMounted(() => {
-  initBarChart()
+//监听
+let stopWatch = watch(() => Object.keys(parkInfo.value).length, (newVal, oldVal) => {
+  //如果有数据，则开始渲染
+  if (Object.keys(parkInfo.value).length !== 0) {
+    nextTick(() => {
+      initBarChart()
+      //渲染完毕停止监听
+      stopWatch()
+    })
+  }
+},{
+    immediate:true
 })
+
+
+// onMounted(() => {
+//   //有信息才开始渲染
+//   if(Object.keys(parkInfo.value).length! == 0){
+//     initBarChart()
+//   }
+// })
 
 </script>
 
@@ -115,10 +133,12 @@ onMounted(() => {
   flex-basis: 35%;
   margin-top: 50px;
   height: 20.625rem;
-  .img-header{
+
+  .img-header {
     width: 100%;
     height: auto;
   }
+
   .bar-chart {
     width: 100%;
     /* height: calc(350px - 90px); */

@@ -50,7 +50,7 @@ const initPieChart = () => {
                 center: ['50%', '40%'], // 圆心位置， 用于调整整个图的位置
                 tooltip: {
                     trigger: 'item',
-                    formatter: (params : any) => {
+                    formatter: (params: any) => {
                         return `${params.seriesName}</br><div style='display:flex;justify-content: space-between;'><div>${params.marker}${params.name}</div><div>${params.percent}%</div></div>`
                     }
                 },
@@ -70,27 +70,45 @@ const initPieChart = () => {
     });
 }
 
-onMounted(() => {
-    initPieChart()
+//监听
+const stopWatch = watch(() => Object.keys(parkInfo.value).length, () => {
+    //如果有数据，则开始渲染
+    if (Object.keys(parkInfo.value).length !== 0) {
+        nextTick(() => {
+            initPieChart()
+            //渲染完毕停止监听
+            stopWatch()
+        })
+    }
+}, {
+    immediate: true
 })
+
+// onMounted(() => {
+//     if(Object.keys(parkInfo.value).length! == 0){
+//         initPieChart()
+//     }
+// })
 </script>
 
 <style>
 .section-three {
-  flex-basis: 40%;
-  margin-top: 50px;
-  width: 100%;
-  .img-header{
+    flex-basis: 40%;
+    margin-top: 50px;
     width: 100%;
-    height: auto;
-  }
-  .pie-chart {
-    position: relative;
-    margin: 0 auto;
-    padding-bottom: 20px;
-    width: 80%;
-    /* height: calc(350px - 40px); */
-    height: 60vh; 
-  }
+
+    .img-header {
+        width: 100%;
+        height: auto;
+    }
+
+    .pie-chart {
+        position: relative;
+        margin: 0 auto;
+        padding-bottom: 20px;
+        width: 80%;
+        /* height: calc(350px - 40px); */
+        height: 60vh;
+    }
 }
 </style>
