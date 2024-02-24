@@ -15,20 +15,40 @@ import ParkIncome from './parkincome.vue';
 import ParkIndustry from './parkindustry.vue';
 import Model3d from './model3d.vue'
 import { getParkInfoAPI } from '@/apis/park';
-import { useParkStore } from '@/stores';
+import { useParkStore, useUserStore } from '@/stores';
 //引入适配组件
 import VScaleScreen from 'v-scale-screen';
 //引入store
 const parkStore = useParkStore()
+const useStore = useUserStore()
 
 //获取游园数据
 const getParkInfo = async () => {
   const res = await getParkInfoAPI()
   parkStore.setParkInfo(res.data)
 }
-onMounted(async () => {
-  await getParkInfo()
+
+//token
+let token = computed(() => {
+  return useStore.token || ''
 })
+
+//监视本地token,有token才发送请求获取信息
+const stopWatch = watch(() => token.value,async() => {
+  //token存在
+  if(token.value !== ''){
+    //获取信息
+    await getParkInfo()
+    //停止监听
+    stopWatch()
+  }
+},{
+  immediate:true
+})
+
+// onMounted(async () => {
+//   await getParkInfo()
+// })
 </script>
 
 <style lang="scss" scoped>
