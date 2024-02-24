@@ -71,7 +71,7 @@ const initPieChart = () => {
 }
 
 //监听
-const stopWatch = watch(() => Object.keys(parkInfo.value).length, () => {
+let stopWatch = watch(() => Object.keys(parkInfo.value).length, () => {
     //如果有数据，则开始渲染
     if (Object.keys(parkInfo.value).length !== 0) {
         nextTick(() => {
