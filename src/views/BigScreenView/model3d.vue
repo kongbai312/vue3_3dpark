@@ -33,32 +33,32 @@ const init3dModel = async() => {
     showLoading.value = false
 }
 
-// //引入store
-// const useStore = useUserStore()
-// //token
-// let token = computed(() => {
-//   return useStore.token || ''
-// })
-// //监视本地token,有token才发送请求获取信息
-// const stopWatch = watch(() => token.value,async() => {
-//   //token存在
-//   if(token.value !== ''){
-//     //获取信息
-//     await init3dModel()
-//     //停止监听
-//     stopWatch()
-//   }
-// },{
-//   immediate:true
-// })
-
-
-// dom节点渲染完毕再加载
-onMounted(() => {
-    nextTick(() => {
-        init3dModel()
-    })
+//引入store
+const useStore = useUserStore()
+//token
+let token = computed(() => {
+  return useStore.token || ''
 })
+//监视本地token,有token才发送请求获取信息
+const stopWatch = watch(() => token.value,async() => {
+  //token存在
+  if(token.value !== ''){
+    //渲染
+    await init3dModel()
+    //停止监听
+    stopWatch()
+  }
+},{
+  immediate:true
+})
+
+
+// // dom节点渲染完毕再加载
+// onMounted(() => {
+//     nextTick(() => {
+//         init3dModel()
+//     })
+// })
 
 </script>
 
