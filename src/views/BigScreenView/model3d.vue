@@ -22,13 +22,13 @@ const showLoading = ref(false)
 const init3dModel = async() => {
     // 开启loading 
     showLoading.value = true
-    // // 实例化解析器实例
-    // let spline = new Application(ref3d.value as HTMLCanvasElement)
-    // // 拉取模型
-    // await spline.load(`${publisPath}/scene.splinecode`)
-    // console.log('3D模型加载并渲染完毕')
-    // //关闭加载条
-    // showLoading.value = false
+    // 实例化解析器实例
+    let spline = new Application(ref3d.value as HTMLCanvasElement)
+    // 拉取模型
+    await spline.load(`${publisPath}/scene.splinecode`)
+    console.log('3D模型加载并渲染完毕')
+    //关闭加载条
+    showLoading.value = false
 }
 // dom节点渲染完毕再加载
 onMounted(() => {
